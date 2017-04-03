@@ -38,6 +38,7 @@
 #include "mem.h"
 
 MQTT_Client mqttClient;
+LOCAL os_timer_t sntp_timer;
 
 void ICACHE_FLASH_ATTR user_check_sntp_stamp(void *arg){  
   uint32 current_stamp;
@@ -60,8 +61,7 @@ static void ICACHE_FLASH_ATTR wifiConnectCb(uint8_t status)
     sntp_setserver(2,	addr);	//	set	server	2	by	IP	address
     sntp_init();
     os_free(addr);
-
-    LOCAL	os_timer_t	sntp_timer;
+    
     os_timer_disarm(&sntp_timer);
     os_timer_setfn(&sntp_timer,	(os_timer_func_t *)user_check_sntp_stamp, NULL);
     os_timer_arm(&sntp_timer,	100,	0);
