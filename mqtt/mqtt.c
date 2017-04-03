@@ -50,7 +50,7 @@
 
 #ifdef MQTT_SSL_ENABLE
 #define SSL_CERT_ADDRESS      0x50
-#define SSL_CA_ADDRESS        0x50500
+#define SSL_CA_ADDRESS        0x51
 #endif
 
 #ifndef QUEUE_BUFFER_SIZE
