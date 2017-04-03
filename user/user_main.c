@@ -38,6 +38,18 @@
 #include "mem.h"
 
 MQTT_Client mqttClient;
+
+void ICACHE_FLASH_ATTR user_check_sntp_stamp(void *arg){  
+  uint32 current_stamp;
+  current_stamp	=	sntp_get_current_timestamp();
+  if(current_stamp	==	0){
+    os_timer_arm(&sntp_timer,	100,	0);
+  }	else{
+    os_timer_disarm(&sntp_timer);
+    os_printf("sntp: %d,%s\n",current_stamp,sntp_get_real_time(current_stamp));
+  }
+}
+
 static void ICACHE_FLASH_ATTR wifiConnectCb(uint8_t status)
 {
   if (status == STATION_GOT_IP) {
@@ -51,7 +63,7 @@ static void ICACHE_FLASH_ATTR wifiConnectCb(uint8_t status)
 
     LOCAL	os_timer_t	sntp_timer;
     os_timer_disarm(&sntp_timer);
-    os_timer_setfn(&sntp_timer,	(os_timer_func_t	*)user_check_sntp_stamp,	NULL);
+    os_timer_setfn(&sntp_timer,	(os_timer_func_t *)user_check_sntp_stamp, NULL);
     os_timer_arm(&sntp_timer,	100,	0);
 
     os_printf("Time: %u\r\n", system_get_time());
@@ -59,18 +71,6 @@ static void ICACHE_FLASH_ATTR wifiConnectCb(uint8_t status)
     MQTT_Connect(&mqttClient);
   } else {
     MQTT_Disconnect(&mqttClient);
-  }
-}
-
-void	ICACHE_FLASH_ATTR	user_check_sntp_stamp(void	*arg){
-  
-  uint32	current_stamp;
-  current_stamp	=	sntp_get_current_timestamp();
-  if(current_stamp	==	0){
-    os_timer_arm(&sntp_timer,	100,	0);
-  }	else{
-    os_timer_disarm(&sntp_timer);
-    os_printf("sntp: %d,%s\n",current_stamp,sntp_get_real_time(current_stamp));
   }
 }
 
