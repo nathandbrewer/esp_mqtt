@@ -173,7 +173,7 @@ else
 									0x00000 $(OUTPUT)0x00000.bin \
 									0x10000 $(OUTPUT)0x10000.bin \
 									0x50000 $(THISDIR)/bin/esp_cert_private_key.bin \
-									0x51000 $(THISDIR)/bin/esp_ca_cert.bin \ga
+									0x51000 $(THISDIR)/bin/esp_ca_cert.bin \
 									$(ESP_INIT_DATA_DEFAULT_ADDR) $(SDK_BASE)/bin/esp_init_data_default.bin
 
 	ESPTOOL_FLASHDEF=

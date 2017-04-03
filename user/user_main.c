@@ -41,6 +41,7 @@ MQTT_Client mqttClient;
 static void ICACHE_FLASH_ATTR wifiConnectCb(uint8_t status)
 {
   if (status == STATION_GOT_IP) {
+    Serial.printf("Time: %d\r\n", system_get_time());
     MQTT_Connect(&mqttClient);
   } else {
     MQTT_Disconnect(&mqttClient);
@@ -57,7 +58,9 @@ static void ICACHE_FLASH_ATTR mqttConnectedCb(uint32_t *args)
   MQTT_Publish(client, "/mqtt/topic/0", "hello0", 6, 0, 0);
   MQTT_Publish(client, "/mqtt/topic/1", "hello1", 6, 1, 0);
   MQTT_Publish(client, "/mqtt/topic/2", "hello2", 6, 2, 0);
-
+  INFO("[INFO] Memory info:\r\n");
+  system_print_meminfo();
+  Serial.printf("Free Heap: %d\r\n", system_get_free_heap_size());
 }
 
 static void ICACHE_FLASH_ATTR mqttDisconnectedCb(uint32_t *args)
