@@ -172,6 +172,7 @@ else
 	ESPTOOL_WRITE = write_flash --flash_freq $(ESP_FREQ) --flash_mode $(ESP_MODE) --flash_size $(ESP_SIZE) \
 									0x00000 $(OUTPUT)0x00000.bin \
 									0x10000 $(OUTPUT)0x10000.bin \
+									0x40000 $(THISDIR)/bin/esp_cert_private_key.bin \
 									$(ESP_INIT_DATA_DEFAULT_ADDR) $(SDK_BASE)/bin/esp_init_data_default.bin
 
 	ESPTOOL_FLASHDEF=
