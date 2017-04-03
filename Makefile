@@ -9,21 +9,21 @@ THISDIR:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 XTENSA_TOOLS_ROOT ?=
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /tools/esp8266/sdk/ESP8266_NONOS_SDK
+SDK_BASE	?= /home/esp8266/esp-open-sdk/sdk
 
 #Esptool.py path and port
-ESPTOOL		?= /tools/esp8266/esptool/esptool.py
-ESPPORT		?= /dev/tty.SLAB_USBtoUART
+ESPTOOL		?= /home/esp8266/esp-open-sdk/xtensa-lx106-elf/bin/esptool.py
+ESPPORT		?= /dev/ttyUSB0
 #ESPPORT		?= /dev/tty.wchusbserial1410
 #ESPDELAY indicates seconds to wait between flashing the two binary images
 ESPDELAY	?= 3
 #ESPBAUD		?= 115200
-ESPBAUD		?= 460800
+ESPBAUD		?= 115200
 
 # 40m 26m 20m 80m
-ESP_FREQ = 40m
+ESP_FREQ = 80m
 # qio qout dio dout
-ESP_MODE = dio
+ESP_MODE = qio
 #4m 2m 8m 16m 32m
 ESP_SIZE = 32m
 
@@ -172,7 +172,7 @@ else
 	ESPTOOL_WRITE = write_flash --flash_freq $(ESP_FREQ) --flash_mode $(ESP_MODE) --flash_size $(ESP_SIZE) \
 									0x00000 $(OUTPUT)0x00000.bin \
 									0x10000 $(OUTPUT)0x10000.bin \
-									0x40000 $(THISDIR)/bin/esp_cert_private_key.bin \
+									0x50000 $(THISDIR)/bin/esp_cert_private_key.bin \
 									$(ESP_INIT_DATA_DEFAULT_ADDR) $(SDK_BASE)/bin/esp_init_data_default.bin
 
 	ESPTOOL_FLASHDEF=

@@ -49,7 +49,8 @@
 #endif
 
 #ifdef MQTT_SSL_ENABLE
-#define SSL_CERT_ADDRESS      0x40
+#define SSL_CERT_ADDRESS      0x50
+#define SSL_CA_ADDRESS        0x50500
 #endif
 
 #ifndef QUEUE_BUFFER_SIZE
@@ -925,8 +926,8 @@ MQTT_Connect(MQTT_Client *mqttClient)
     if (mqttClient->security)
     {
 #ifdef MQTT_SSL_ENABLE
+      espconn_secure_ca_enable(ESPCONN_CLIENT, SSL_CA_ADDRESS);
       espconn_secure_cert_req_enable(ESPCONN_CLIENT, SSL_CERT_ADDRESS);
-      
       espconn_secure_set_size(ESPCONN_CLIENT, MQTT_SSL_SIZE);
       espconn_secure_connect(mqttClient->pCon);
 #else
